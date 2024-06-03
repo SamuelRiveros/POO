@@ -14,8 +14,26 @@ export class juego {
         this.#monstruo = null;
     }
 
-    // propiedades, no se si va aquí
-    
+    #generarNuevoMonstruo() {
+        return {
+            vida: Math.floor(Math.random() * 50) + 1
+        }
+    }
+
+    logear(mensaje){
+        this.historial.push(mensaje);
+        console.log(mensaje);
+    }
+
+    investigar(agregado) {
+        if(this.monstruo && this.#monstruo.vida > 0 ) {
+            this.logear("No se puede investigar mientras que el mounstruo tenga vida")
+            return;
+        }
+
+        this.#monstruo = this.#generarNuevoMonstruo();
+        this.loguear(`Has encontrado un nuevo monstruo con ${this.#monstruo.vida} de vida!`);
+    }
 
     set setHistorial(historial="") {
         this.historial = historial;
