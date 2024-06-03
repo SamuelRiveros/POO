@@ -1,13 +1,17 @@
+import { combate } from "./combate";
 import { Orco, Goblin, Kobold } from "./monstruo";
 
 export class juego {
     #historial = [];
     #monstruo = null;
+    #combate = null;
+    #heroe = null;
     
-    constructor(){
+    constructor(heroe){
         // Aquí propiedades //
         this.#historial = [];
         this.#monstruo = null;
+        this.#heroe = heroe;
     }
     
     #generarNuevoMonstruo() {
@@ -32,7 +36,8 @@ export class juego {
         }
 
         this.#monstruo = this.#generarNuevoMonstruo();
-        this.loguear(`Has encontrado un nuevo monstruo con ${this.#monstruo.vida} de vida!`);
+        this.#combate = new combate(this.#heroe, this.#monstruo)
+        this.logear(`Has encontrado un nuevo monstruo con ${this.#monstruo.vida} de vida!`);
     }
 
     atacar() {
@@ -41,29 +46,20 @@ export class juego {
             return;
         }
 
-        const danio = Math.floor(math.random() *10) + 1;
-        this.#monstruo.vida -= danio;
+        const daño = this.#combate.atacar()
         this.logear("Atacas al monstruo !, le has sacado ${danio} de vida");
 
-        if (!this.#monstruo.vida <= 0 ) {
-            this.logear("Has asesinado al monstruo !")
+        if (this.#combate.esMonstruoDerrotado()) {
+            this.logear("¡Has asesinado al monstruo!");
         }
 
     }
 
-
-    set setHistorial(historial="") {
-        this.historial = historial;
-    }
-
-    set setMounstro(mounstruo="mounstruoactual") {
-        this.mounstruo = mounstruo;
-    }
-
-
 }
 
-// Ejemplo de uso:
-// const juego = new Juego();
-juego.investigar();
-juego.atacar();
+
+
+// Ejemplo de uso
+// // const juego = new Juego();
+// juego.investigar();
+// juego.atacar();
