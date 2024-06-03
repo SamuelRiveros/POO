@@ -1,3 +1,5 @@
+import { Orco, Goblin, Kobold } from "./monstruo";
+
 export class juego {
     #historial = [];
     #monstruo = null;
@@ -9,9 +11,9 @@ export class juego {
     }
     
     #generarNuevoMonstruo() {
-        return {
-            vida: Math.floor(Math.random() * 50) + 1
-        }
+        const tiposDeMonstruo = [Orco, Goblin, Kobold];
+        const indiceAleatorio = Math.floor(Math.random() * tiposDeMonstruo.length);
+        return new tiposDeMonstruo[indiceAleatorio]();
     }
     
     
@@ -36,14 +38,14 @@ export class juego {
     atacar() {
         if (!this.#monstruo || this.#monstruo.vida <= 0 ) {
             this.logear("No se puede atacar al monstruo, ya que está muerto || No hay monstruos para atacar")
+            return;
         }
-        return;
 
         const danio = Math.floor(math.random() *10) + 1;
         this.#monstruo.vida -= danio;
         this.logear("Atacas al monstruo !, le has sacado ${danio} de vida");
 
-        if (!this.monstruo.vida <= 0 ) {
+        if (!this.#monstruo.vida <= 0 ) {
             this.logear("Has asesinado al monstruo !")
         }
 

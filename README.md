@@ -9,7 +9,6 @@
     
 2. Crear la clase `Heroe` y la clase **abstracta** `Monstruo` y hacerlas descender de `Criatura`
 3. Crear tres clases concretas `Orco`, `Goblin` y `Kobold` que desciendan de `Monstruo`, que en su constructor deben llamar a su clase ascendiente con valores específicos que necesita su constructor
--------------------
 4. Crear la clase `Juego` para manejar el flujo del juego:
     - debe tener una propiedad `historial` que es un array que inicializa vacío
     - debe tener un método `loguear` que agregue un mensaje al historial y lo muestre en consola
