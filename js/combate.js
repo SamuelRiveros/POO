@@ -1,6 +1,4 @@
-import { juego } from "./juego";
-
-export class combate extends juego {
+export class combate {
     constructor(heroe, monstruo){
         this.heroe = heroe;
         this.monstruo = monstruo;

@@ -1,6 +1,4 @@
-import { juego } from "./juego"
-
-export class criatura {
+export class criatura{
 
     constructor(nombre, vida, vidaMaxima, ataque){
         this.nombre = nombre;

@@ -1,9 +1,14 @@
-import { combate } from "./combate";
-import { Orco, Goblin, Kobold } from "./monstruo";
+import { combate } from "./combate.js";
+
+import { Orco, Goblin, Kobold } from "./monstruo.js";
+
+import { heroe } from './heroe.js';
+import { item } from './item.js';
 
 export class juego {
     #historial = [];
     #monstruo = null;
+
     #combate = null;
     #heroe = null;
     
@@ -47,7 +52,7 @@ export class juego {
         }
 
         const daño = this.#combate.atacar()
-        this.logear("Atacas al monstruo !, le has sacado ${danio} de vida");
+        this.logear(`Atacas al monstruo !, le has sacado ${daño} de vida`);
 
         if (this.#combate.esMonstruoDerrotado()) {
             this.logear("¡Has asesinado al monstruo!");
@@ -55,11 +60,60 @@ export class juego {
 
     }
 
+    ejecutar(accion) {
+        switch (accion.toLowerCase()) {
+            case 'investigar':
+                this.investigar();
+                break;
+            case 'atacar':
+                this.atacar();
+                break;
+            default:
+                this.logear(`Acción no reconocida: ${accion}`);
+                break;
+        }
+
+    }
+
+    juegoterminado() {
+        if (!this.#heroe || this.#heroe.vida <= 0) {
+            this.logear("El heroe está muerto, juego terminado")
+            return;
+        }
+    }
+
+    reiniciarjuego() {
+        this.#heroe.vida = 100
+        this.logear("Juego reiniciado")
+    }
+
+    utilizarItem() {
+
+    }
+
+
+
+    // get historial() {
+    //     return this.#historial;
+    // }
+
 }
 
+// Aqui el MainGame //
+
+// Crear un héroe
+const heroename = new heroe("Samuel", 100, 100);
+
+// Crear un ítem
+const pocion = new item("Poción de Vida");
+
+// Usar el ítem en el héroe
+pocion.utilizar(heroe); // Samuel ha recibido 20 de vida. Vida actual: 120
 
 
-// Ejemplo de uso
-// // const juego = new Juego();
+// let heroe = new heroe("Samuel", 100, 100);;
+
+// let juego = new juego(heroe);
+
 // juego.investigar();
 // juego.atacar();

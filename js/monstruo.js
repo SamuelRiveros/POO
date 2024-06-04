@@ -1,4 +1,4 @@
-import { criatura } from "./criatura";
+import { criatura } from "./criatura.js";
 
 export class monstruo extends criatura {
 
@@ -9,18 +9,18 @@ export class monstruo extends criatura {
 
 export class Orco extends monstruo {
     constructor() {
-        super("Orco");  // Vida por defecto de 100
+        super("Orco");
     }
 }
 
 export class Goblin extends monstruo {
     constructor() {
-        super("Goblin");  // Vida por defecto de 100
+        super("Goblin");
     }
 }
 
 export class Kobold extends monstruo {
     constructor() {
-        super("Kobold");  // Vida por defecto de 100
+        super("Kobold");
     }
 }
