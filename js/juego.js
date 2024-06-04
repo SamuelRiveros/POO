@@ -11,6 +11,9 @@ export class juego {
 
     #combate = null;
     #heroe = null;
+
+    #juegoTerminado = false;
+
     
     constructor(heroe){
         // Aquí propiedades //
@@ -24,6 +27,8 @@ export class juego {
         const indiceAleatorio = Math.floor(Math.random() * tiposDeMonstruo.length);
         return new tiposDeMonstruo[indiceAleatorio]();
     }
+
+    
     
     
     
@@ -35,6 +40,12 @@ export class juego {
     }
 
     investigar() {
+        if (this.#juegoTerminado) {
+            this.logear("No puedes investigar, el juego ha terminado.");
+            return;
+        }
+
+
         if(this.#monstruo && this.#monstruo.vida > 0 ) {
             this.logear("No se puede investigar mientras que el mounstruo tenga vida")
             return;
@@ -46,6 +57,12 @@ export class juego {
     }
 
     atacar() {
+        if (this.#juegoTerminado) {
+            this.logear("No puedes atacar, el juego ha terminado.");
+            return;
+        }
+
+
         if (!this.#monstruo || this.#monstruo.vida <= 0 ) {
             this.logear("No se puede atacar al monstruo, ya que está muerto || No hay monstruos para atacar")
             return;
@@ -58,9 +75,17 @@ export class juego {
             this.logear("¡Has asesinado al monstruo!");
         }
 
+        this.#actualizarEstadoJuego();  // Verificar el estado del juego después de atacar
+
     }
 
     ejecutar(accion) {
+
+        if (this.#juegoTerminado) {
+            this.logear("No puedes ejecutar acciones, el juego ha terminado.");
+            return;
+        }
+
         switch (accion.toLowerCase()) {
             case 'investigar':
                 this.investigar();
@@ -75,6 +100,8 @@ export class juego {
 
     }
 
+    // administración de juego //
+
     juegoterminado() {
         if (!this.#heroe || this.#heroe.vida <= 0) {
             this.logear("El heroe está muerto, juego terminado")
@@ -84,18 +111,36 @@ export class juego {
 
     reiniciarjuego() {
         this.#heroe.vida = 100
+        this.#juegoTerminado = false;
         this.logear("Juego reiniciado")
     }
+
+    #actualizarEstadoJuego() {
+        if (this.#heroe.vida <= 0) {
+            this.#juegoTerminado = true;
+            this.logear("El juego ha terminado. El héroe no tiene vida.");
+        }
+    }
+
+    // Getter para el historial
+    get historial() {
+        return this.#historial;
+    }
+
+    set heroe(nuevoHeroe) {
+        this.#heroe = nuevoHeroe;
+        this.#actualizarEstadoJuego(); // Verificar el estado del juego al cambiar de héroe
+    }
+
+    get heroe() {
+        return this.#heroe;
+    }
+    
 
     utilizarItem() {
 
     }
-
-
-
-    // get historial() {
-    //     return this.#historial;
-    // }
+    
 
 }
 
@@ -103,6 +148,8 @@ export class juego {
 
 // Crear un héroe
 const heroename = new heroe("Samuel", 100, 100);
+
+
 
 // Crear un ítem
 const pocion = new item("Poción de Vida");

@@ -24,7 +24,7 @@
 5. Extraer la lógica de combate en una clase `Combate` y refactorizar el código. `Juego` debería tener `Combate` y delegarle responsabilidades - CHECK
 6. Centralizar las distintas posibles acciones (atacar, investigar) dentro de un único método (p. ej. `ejecutar`) que tome como argumento un string, y ejecute la acción que corresponde. - CHECKED
 7. Chequear si el juego está terminado o no (si `Heroe` no tiene vida), e impedir hacer acciones si lo está - CHECKED
-8. Permitir reiniciar el juego - SEMICHECKED
+8. Permitir reiniciar el juego - CHECKED
 9. Agregarle a `Heroe` la propiedad `inventario`, que es un array que inicializa vacio - CHECKED
 10. Crear una clase `Item` con `nombre` y el método `utilizar`, dicho método debe tener como parámetro `objetivo` y debe invocar al metodo para sumarle vida al objetivo -SEMICHECKED
 11. Agregar a `Heroe` el método `utilizarItem`, que tome como argumento un ítem y llame a su método `utilizar` pasándose a sí mismo como argumento, luego debe eliminar dicho ítem de `inventario` - SEMICHECKED
