@@ -26,8 +26,8 @@
 7. Chequear si el juego está terminado o no (si `Heroe` no tiene vida), e impedir hacer acciones si lo está - CHECKED
 8. Permitir reiniciar el juego - CHECKED
 9. Agregarle a `Heroe` la propiedad `inventario`, que es un array que inicializa vacio - CHECKED
-10. Crear una clase `Item` con `nombre` y el método `utilizar`, dicho método debe tener como parámetro `objetivo` y debe invocar al metodo para sumarle vida al objetivo -SEMICHECKED
-11. Agregar a `Heroe` el método `utilizarItem`, que tome como argumento un ítem y llame a su método `utilizar` pasándose a sí mismo como argumento, luego debe eliminar dicho ítem de `inventario` - SEMICHECKED
-12. Agregar a `Juego` el método `utilizarItem`, que llame al método `utilizarItem` de `Heroe`
-13. Hacer que `investigar` tenga un probabilidad de encontrar un monstruo o una poción y agregarla a `inventario` de `Heroe`
+10. Crear una clase `Item` con `nombre` y el método `utilizar`, dicho método debe tener como parámetro `objetivo` y debe invocar al metodo para sumarle vida al objetivo -CHECKED
+11. Agregar a `Heroe` el método `utilizarItem`, que tome como argumento un ítem y llame a su método `utilizar` pasándose a sí mismo como argumento, luego debe eliminar dicho ítem de `inventario` - CHECKED
+12. Agregar a `Juego` el método `utilizarItem`, que llame al método `utilizarItem` de `Heroe` - CHECKED
+13. Hacer que `investigar` tenga un probabilidad de encontrar un monstruo o una poción y agregarla a `inventario` de `Heroe` - SEMICHECKED
 14. Extraer la lógica de inventario en una clase `Inventario`, que permita agregar, utilizar y remover ítems, e imprimir una lista de ítems. Agregar la posibilidad de utlizar y ver ítems como acciones del juego.

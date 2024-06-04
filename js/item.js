@@ -1,5 +1,6 @@
 export class item {
     #nombre = null
+
     constructor(nombre){
         this.#nombre = nombre
 
@@ -11,7 +12,7 @@ export class item {
 
     utilizar(objetivo){
         if (objetivo && typeof objetivo.recibirVida === "function" ) {
-            objetivo.recibirVida(20);
+            objetivo.recibirVida(10);
         } else {
             console.log("El objetivo no puede recibir vida")
         }

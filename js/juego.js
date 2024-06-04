@@ -28,6 +28,8 @@ export class juego {
         return new tiposDeMonstruo[indiceAleatorio]();
     }
 
+
+
     
     
     
@@ -54,7 +56,23 @@ export class juego {
         this.#monstruo = this.#generarNuevoMonstruo();
         this.#combate = new combate(this.#heroe, this.#monstruo)
         this.logear(`Has encontrado un nuevo monstruo con ${this.#monstruo.vida} de vida!`);
+
+        //13. Hacer que `investigar` tenga un probabilidad de encontrar un monstruo o una poción y agregarla a `inventario` de `Heroe`
+
+        const probabilidadEncontrar = Math.random();
+        if (probabilidad < 0.5) { 
+            this.#monstruo = this.#generarNuevoMonstruo
+            this.#combate = new combate(this.#heroe, this.#monstruo);
+            this.logear(`¡Has encontrado un nuevo monstruo con ${this.#monstruo.vida} de vida!`);
+        } else {  // 50% de probabilidad de encontrar un ítem
+            const pocion = new item("Poción de Vida");
+            this.#heroe.agregarItem(pocion);
+        }
+        return new tiposDeMonstruo[indiceAleatorio]();
+
     }
+
+
 
     atacar() {
         if (this.#juegoTerminado) {
@@ -138,7 +156,7 @@ export class juego {
     
 
     utilizarItem() {
-
+        heroe.utilizarItem(this)
     }
     
 
@@ -146,21 +164,11 @@ export class juego {
 
 // Aqui el MainGame //
 
-// Crear un héroe
+// -- para probar en consola -- //
 const heroename = new heroe("Samuel", 100, 100);
-
-
-
 // Crear un ítem
-const pocion = new item("Poción de Vida");
 
 // Usar el ítem en el héroe
-pocion.utilizar(heroe); // Samuel ha recibido 20 de vida. Vida actual: 120
-
-
-// let heroe = new heroe("Samuel", 100, 100);;
-
-// let juego = new juego(heroe);
-
+pocion.utilizar(heroe); // Samuel ha recibido 20 de vida. Vida actual: 100
 // juego.investigar();
 // juego.atacar();
