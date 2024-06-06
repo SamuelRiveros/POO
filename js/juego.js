@@ -1,44 +1,36 @@
-import { combate } from "./combate.js";
-
+import { Combate } from "./combate.js";
 import { Orco, Goblin, Kobold } from "./monstruo.js";
+import { Item } from "./item.js";
 
-import { heroe } from './heroe.js';
-import { item } from './item.js';
-
-export class juego {
+export class Juego {
     #historial = [];
     #monstruo = null;
-
     #combate = null;
     #heroe = null;
-
     #juegoTerminado = false;
 
-    
-    constructor(heroe){
-        // Aquí propiedades //
+    constructor(heroe) {
         this.#historial = [];
         this.#monstruo = null;
         this.#heroe = heroe;
     }
-    
+
     #generarNuevoMonstruo() {
         const tiposDeMonstruo = [Orco, Goblin, Kobold];
         const indiceAleatorio = Math.floor(Math.random() * tiposDeMonstruo.length);
         return new tiposDeMonstruo[indiceAleatorio]();
     }
 
-
-
-    
-    
-    
-    
-    // Estos serían basicamente los métodos
-
-    logear(mensaje){
+    logear(mensaje) {
         this.#historial.push(mensaje);
         console.log(mensaje);
+    }
+
+    #actualizarEstadoJuego() {
+        if (this.#heroe.vida <= 0) {
+            this.#juegoTerminado = true;
+            this.logear("El juego ha terminado. El héroe no tiene vida.");
+        }
     }
 
     investigar() {
@@ -47,32 +39,21 @@ export class juego {
             return;
         }
 
-
-        if(this.#monstruo && this.#monstruo.vida > 0 ) {
-            this.logear("No se puede investigar mientras que el mounstruo tenga vida")
+        if (this.#monstruo && this.#monstruo.vida > 0) {
+            this.logear("No se puede investigar mientras que el monstruo tenga vida.");
             return;
         }
 
-        this.#monstruo = this.#generarNuevoMonstruo();
-        this.#combate = new combate(this.#heroe, this.#monstruo)
-        this.logear(`Has encontrado un nuevo monstruo con ${this.#monstruo.vida} de vida!`);
-
-        //13. Hacer que `investigar` tenga un probabilidad de encontrar un monstruo o una poción y agregarla a `inventario` de `Heroe`
-
-        const probabilidadEncontrar = Math.random();
-        if (probabilidad < 0.5) { 
-            this.#monstruo = this.#generarNuevoMonstruo
-            this.#combate = new combate(this.#heroe, this.#monstruo);
+        const probabilidad = Math.random();
+        if (probabilidad < 0.5) {  // 50% de probabilidad de encontrar un monstruo
+            this.#monstruo = this.#generarNuevoMonstruo();
+            this.#combate = new Combate(this.#heroe, this.#monstruo);
             this.logear(`¡Has encontrado un nuevo monstruo con ${this.#monstruo.vida} de vida!`);
         } else {  // 50% de probabilidad de encontrar un ítem
-            const pocion = new item("Poción de Vida");
+            const pocion = new Item("Poción de Vida");
             this.#heroe.agregarItem(pocion);
         }
-        return new tiposDeMonstruo[indiceAleatorio]();
-
     }
-
-
 
     atacar() {
         if (this.#juegoTerminado) {
@@ -80,25 +61,22 @@ export class juego {
             return;
         }
 
-
-        if (!this.#monstruo || this.#monstruo.vida <= 0 ) {
-            this.logear("No se puede atacar al monstruo, ya que está muerto || No hay monstruos para atacar")
+        if (!this.#monstruo || this.#monstruo.vida <= 0) {
+            this.logear("No se puede atacar al monstruo, ya que está muerto o no hay monstruos para atacar.");
             return;
         }
 
-        const daño = this.#combate.atacar()
-        this.logear(`Atacas al monstruo !, le has sacado ${daño} de vida`);
+        const daño = this.#combate.atacar();
+        this.logear(`¡Atacas al monstruo! Le has sacado ${daño} de vida.`);
 
         if (this.#combate.esMonstruoDerrotado()) {
             this.logear("¡Has asesinado al monstruo!");
         }
 
         this.#actualizarEstadoJuego();  // Verificar el estado del juego después de atacar
-
     }
 
-    ejecutar(accion) {
-
+    ejecutar(accion, parametro = null) {
         if (this.#juegoTerminado) {
             this.logear("No puedes ejecutar acciones, el juego ha terminado.");
             return;
@@ -111,33 +89,26 @@ export class juego {
             case 'atacar':
                 this.atacar();
                 break;
+            case 'utilizar':
+                if (parametro) {
+                    this.#heroe.utilizarItem(parametro);
+                } else {
+                    this.logear("Debes especificar un ítem para utilizar.");
+                }
+                break;
+            case 'inventario':
+                this.#heroe.mostrarInventario();
+                break;
             default:
                 this.logear(`Acción no reconocida: ${accion}`);
                 break;
         }
-
     }
 
-    // administración de juego //
-
-    juegoterminado() {
-        if (!this.#heroe || this.#heroe.vida <= 0) {
-            this.logear("El heroe está muerto, juego terminado")
-            return;
-        }
-    }
-
-    reiniciarjuego() {
-        this.#heroe.vida = 100
+    reiniciarJuego() {
+        this.#heroe.vida = 100;
         this.#juegoTerminado = false;
-        this.logear("Juego reiniciado")
-    }
-
-    #actualizarEstadoJuego() {
-        if (this.#heroe.vida <= 0) {
-            this.#juegoTerminado = true;
-            this.logear("El juego ha terminado. El héroe no tiene vida.");
-        }
+        this.logear("Juego reiniciado");
     }
 
     // Getter para el historial
@@ -145,6 +116,7 @@ export class juego {
         return this.#historial;
     }
 
+    // Getter y Setter para el héroe
     set heroe(nuevoHeroe) {
         this.#heroe = nuevoHeroe;
         this.#actualizarEstadoJuego(); // Verificar el estado del juego al cambiar de héroe
@@ -153,22 +125,31 @@ export class juego {
     get heroe() {
         return this.#heroe;
     }
-    
-
-    utilizarItem() {
-        heroe.utilizarItem(this)
-    }
-    
-
 }
+
 
 // Aqui el MainGame //
 
-// -- para probar en consola -- //
-const heroename = new heroe("Samuel", 100, 100);
-// Crear un ítem
+//ejemplos de uso en consola
 
-// Usar el ítem en el héroe
-pocion.utilizar(heroe); // Samuel ha recibido 20 de vida. Vida actual: 100
-// juego.investigar();
-// juego.atacar();
+// import { Heroe } from './heroe.js';
+// import { Juego } from './juego.js';
+// import { Item } from './item.js';
+
+// // Crear un héroe
+// const heroe = new Heroe("Samuel", 100, 100, 10);
+
+// // Crear un juego con el héroe
+// const juego = new Juego(heroe);
+
+// // Investigar
+// juego.ejecutar('investigar'); // se puede encontrar un monstruo o una poción
+
+// // Mostrar inventario
+// juego.ejecutar('inventario'); // Mostrar el inventario del héroe
+
+// // Usar un ítem
+// juego.ejecutar('utilizar', 'Poción de Vida'); // Usar la poción de vida
+
+// // Mostrar inventario nuevamente
+// juego.ejecutar('inventario'); // Mostrar el inventario del héroe después de usar el ítem
